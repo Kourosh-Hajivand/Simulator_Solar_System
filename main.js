@@ -27,7 +27,21 @@ const PlaneMaterial = new THREE.MeshBasicMaterial({
   color: 0xffffff,
   side: THREE.DoubleSide,
 });
+// SepherGeometry
+const SepherGeometry = new THREE.SphereGeometry(2, 64, 64);
+const SepherMaterial = new THREE.MeshLambertMaterial({
+  color: 0xfcf33,
+  wireframe: false,
+});
+const SepherMesh = new THREE.Mesh(SepherGeometry, SepherMaterial);
+SepherMesh.position.x = 3;
+scene.add(SepherMesh);
+// Light
+const directionalLight = new THREE.DirectionalLight(0xffffff, 10);
+directionalLight.position.set(0, 1, 0); // Set the light's position
+scene.add(directionalLight);
 // GridHepler
+
 const GridHepler = new THREE.GridHelper();
 scene.add(GridHepler);
 const PlaneMesh = new THREE.Mesh(PlaneGeometry, PlaneMaterial);
