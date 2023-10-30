@@ -29,6 +29,17 @@ const cubeTexture = new THREE.CubeTextureLoader()
   ]);
 cubeTexture.generateMipmaps = false;
 scene.background = cubeTexture;
+// IcosahedronGeometry
+const loader = new THREE.TextureLoader();
+const IcosahedronGeometry = new THREE.IcosahedronGeometry();
+const IcoMaterial = new THREE.MeshStandardMaterial({
+  map: loader.load("/nebula.jpg"),
+});
+
+const boxtwo = new THREE.Mesh(IcosahedronGeometry, IcoMaterial);
+boxtwo.castShadow = true;
+boxtwo.position.set(0, 2, 10);
+scene.add(boxtwo);
 //  PlaneGeometry
 const PlaneGeometry = new THREE.PlaneGeometry(40, 40);
 const PlaneMaterial = new THREE.MeshStandardMaterial({
@@ -51,20 +62,24 @@ scene.add(SepherMesh);
 // Light
 const AmbientLight = new THREE.AmbientLight(0x333333);
 scene.add(AmbientLight);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(-60, 50, 0);
-directionalLight.castShadow = true;
-directionalLight.shadow.camera.top = 10;
-scene.add(directionalLight);
+// const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+// directionalLight.position.set(-60, 50, 0);
+// directionalLight.castShadow = true;
+// directionalLight.shadow.camera.top = 10;
+// directionalLight.shadow.camera.right = 50;
+// scene.add(directionalLight);
 
-const DShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
-scene.add(DShadowHelper);
-const DLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
-scene.add(DLightHelper);
+// const DShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+// scene.add(DShadowHelper);
+// const DLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
+// scene.add(DLightHelper);
 // GridHepler
 // const GridHepler = new THREE.GridHelper();
 // scene.add(GridHepler);
 
+const spotLight = new THREE.SpotLight(0xffffff, 1);
+scene.add(spotLight);
+spotLight;
 // Add Gui
 const gui = new dat.GUI();
 const option = {
@@ -87,6 +102,7 @@ let step = 0;
 const animtaion = () => {
   step += option.speed;
   SepherMesh.position.y = 5 * Math.abs(Math.sin(step));
+  boxtwo.position.y = 5 * Math.abs(Math.sin(step));
   renderer.render(scene, camera);
 };
 const canvas = document.querySelector(".webgl");
