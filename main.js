@@ -17,6 +17,18 @@ scene.add(camera);
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
+const cubeTexture = new THREE.CubeTextureLoader()
+  .setPath("/")
+  .load([
+    "nebula.jpg",
+    "nebula.jpg",
+    "nebula.jpg",
+    "nebula.jpg",
+    "nebula.jpg",
+    "nebula.jpg",
+  ]);
+cubeTexture.generateMipmaps = false;
+scene.background = cubeTexture;
 //  PlaneGeometry
 const PlaneGeometry = new THREE.PlaneGeometry(40, 40);
 const PlaneMaterial = new THREE.MeshStandardMaterial({
