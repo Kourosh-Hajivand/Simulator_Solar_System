@@ -1,26 +1,22 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as dat from "dat.gui";
+
 const scene = new THREE.Scene();
 // Camera
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  0.1,
+  0.3,
   1000
 );
 
-camera.position.set(0, 2, 10);
+camera.position.set(0, 15, 30);
 scene.add(camera);
 // AxesHelper
 const axesHelper = new THREE.AxesHelper(5);
 scene.add(axesHelper);
 
-// // BoxGeometry
-// const Geometry = new THREE.BoxGeometry();
-// const Material = new THREE.MeshBasicMaterial({ color: "#00ff83" });
-// const box = new THREE.Mesh(Geometry, Material);
-// scene.add(box);
 //  PlaneGeometry
 const PlaneGeometry = new THREE.PlaneGeometry(40, 40);
 const PlaneMaterial = new THREE.MeshStandardMaterial({
@@ -29,7 +25,7 @@ const PlaneMaterial = new THREE.MeshStandardMaterial({
 });
 const PlaneMesh = new THREE.Mesh(PlaneGeometry, PlaneMaterial);
 PlaneMesh.rotation.x = -0.5 * Math.PI;
-
+PlaneMesh.receiveShadow = true;
 scene.add(PlaneMesh);
 // SepherGeometry
 const SepherGeometry = new THREE.SphereGeometry(2, 64, 64);
@@ -38,13 +34,19 @@ const SepherMaterial = new THREE.MeshLambertMaterial({
   wireframe: false,
 });
 const SepherMesh = new THREE.Mesh(SepherGeometry, SepherMaterial);
+SepherMesh.castShadow = true;
 scene.add(SepherMesh);
 // Light
 const AmbientLight = new THREE.AmbientLight(0x333333);
 scene.add(AmbientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(-10, 10, 0);
+directionalLight.position.set(-60, 50, 0);
+directionalLight.castShadow = true;
+directionalLight.shadow.camera.top = 10;
 scene.add(directionalLight);
+
+const DShadowHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+scene.add(DShadowHelper);
 const DLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5);
 scene.add(DLightHelper);
 // GridHepler
