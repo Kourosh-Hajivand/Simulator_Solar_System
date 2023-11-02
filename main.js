@@ -27,7 +27,6 @@ const cubeTexture = new THREE.CubeTextureLoader()
     "nebula.jpg",
     "nebula.jpg",
   ]);
-cubeTexture.generateMipmaps = false;
 scene.background = cubeTexture;
 // IcosahedronGeometry
 const loader = new THREE.TextureLoader();
@@ -60,8 +59,9 @@ const SepherMesh = new THREE.Mesh(SepherGeometry, SepherMaterial);
 SepherMesh.castShadow = true;
 scene.add(SepherMesh);
 // Light
-const AmbientLight = new THREE.AmbientLight(0x333333);
-scene.add(AmbientLight);
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+
 // const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 // directionalLight.position.set(-60, 50, 0);
 // directionalLight.castShadow = true;
@@ -77,9 +77,15 @@ scene.add(AmbientLight);
 // const GridHepler = new THREE.GridHelper();
 // scene.add(GridHepler);
 
-const spotLight = new THREE.SpotLight(0xffffff, 1);
+const spotLight = new THREE.SpotLight(0xffffff);
+spotLight.position.set(-80, 80, 80);
+spotLight.castShadow = true;
+const SpotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(SpotLightHelper);
 scene.add(spotLight);
-spotLight;
+
+spotLight.intensity = 10000; // or adjust the intensity as needed
+spotLight.angle = 0.2;
 // Add Gui
 const gui = new dat.GUI();
 const option = {
@@ -111,4 +117,6 @@ orbitcontrol.update();
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap; // or other suitable shadow map type
+
 renderer.setAnimationLoop(animtaion);
