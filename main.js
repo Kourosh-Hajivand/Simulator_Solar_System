@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import Stars from "./public/img/stars.jpg";
+import Stars from "/img/stars.jpg";
+import sunTexture from "/img/sun.jpg";
 // Scene
 const scene = new THREE.Scene();
 // Camera
@@ -10,8 +11,8 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 15;
-camera.position.set(0, 2, 10);
+
+camera.position.set(-190, 140, 140);
 scene.add(camera);
 
 const sceneTexture = new THREE.CubeTextureLoader();
@@ -24,14 +25,21 @@ scene.background = sceneTexture.load([
   Stars,
 ]);
 
+// sunGeo
+const textureLoader = new THREE.TextureLoader();
+const SunGeo = new THREE.SphereGeometry(20, 64, 64);
+const SunMat = new THREE.MeshBasicMaterial({
+  map: textureLoader.load(sunTexture),
+});
+const SunMesh = new THREE.Mesh(SunGeo, SunMat);
+scene.add(SunMesh);
+//
 // light
-const ambitionLight = new THREE.AmbientLight(0x00ff00);
+const ambitionLight = new THREE.AmbientLight(0x404040);
 scene.add(ambitionLight);
-// Helper
-const axesHelper = new THREE.AxesHelper(20);
-scene.add(axesHelper);
 // animation
 const animation = () => {
+  SunMesh.rotateY(0.004);
   Rendrer.render(scene, camera);
 };
 // Rendrer
