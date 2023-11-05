@@ -27,7 +27,17 @@ scene.background = sceneTexture.load([
   Stars,
   Stars,
 ]);
-
+const CreatePlanet = (size, position, haveRing, RingTexture) => {
+  const MercuryGeo = new THREE.SphereGeometry(3.2, 64, 64);
+  const MercuryMat = new THREE.MeshStandardMaterial({
+    map: textureLoader.load(MercuryTexture),
+  });
+  const MercuryMesh = new THREE.Mesh(MercuryGeo, MercuryMat);
+  MercuryMesh.position.x = 28;
+  const MercuryObj = new THREE.Object3D();
+  scene.add(MercuryObj);
+  MercuryObj.add(MercuryMesh);
+};
 // sunGeo
 const textureLoader = new THREE.TextureLoader();
 const SunGeo = new THREE.SphereGeometry(16, 64, 64);
