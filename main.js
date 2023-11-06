@@ -5,6 +5,14 @@ import sunTexture from "/img/sun.jpg";
 import MercuryTexture from "/img/mercury.jpg";
 import saturnTexture from "/img/saturn.jpg";
 import saturnRingTexture from "/img/saturn ring.png";
+import venusTexture from "/img/venus.jpg";
+import earthTexture from "/img/earth.jpg";
+import marsTexture from "/img/mars.jpg";
+import jupiterTexture from "/img/jupiter.jpg";
+import uranusTexture from "/img/uranus.jpg";
+import uranusRingTexture from "/img/uranus ring.png";
+import neptuneTexture from "/img/neptune.jpg";
+import plutoTexture from "/img/pluto.jpg";
 // Scene
 const scene = new THREE.Scene();
 // Camera
@@ -44,7 +52,7 @@ const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
       map: textureLoader.load(RingTexture),
     });
     const RingMesh = new THREE.Mesh(RingGeo, RingMat);
-    RingMesh.position.x = 70;
+    RingMesh.position.x = position;
     RingMesh.rotation.x = -0.5 * Math.PI;
     Object.add(RingMesh);
   }
@@ -52,8 +60,15 @@ const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
   return { Mesh, Object };
 };
 const SunPlanet = CreatePlanet(16, 0, sunTexture);
-const mercury = CreatePlanet(6, 40, MercuryTexture);
-const saturn = CreatePlanet(10, 70, saturnTexture, true, saturnRingTexture);
+const mercury = CreatePlanet(6, 28, MercuryTexture);
+const Venus = CreatePlanet(5.8, 44, venusTexture, false, saturnRingTexture);
+const earth = CreatePlanet(6, 62, earthTexture, false, saturnRingTexture);
+const mars = CreatePlanet(4, 78, marsTexture, false, saturnRingTexture);
+const jupiter = CreatePlanet(12, 100, jupiterTexture, false, saturnRingTexture);
+const saturn = CreatePlanet(10, 138, saturnTexture, false, saturnRingTexture);
+const uranus = CreatePlanet(7, 176, uranusTexture, true, uranusRingTexture);
+const neptune = CreatePlanet(7, 200, neptuneTexture, false, saturnRingTexture);
+const pluto = CreatePlanet(2.8, 216, plutoTexture, false, saturnRingTexture);
 // light
 const AmbitionLight = new THREE.AmbientLight(0xffffff);
 scene.add(AmbitionLight);
@@ -65,9 +80,19 @@ scene.add(pointLight);
 // animation
 const animation = () => {
   SunPlanet.Mesh.rotateY(0.004);
-  mercury.Mesh.rotateY(0.0104);
-  mercury.Object.rotateY(0.009);
+  mercury.Mesh.rotateY(0.004);
+  Venus.Mesh.rotateY(0.002);
+  earth.Mesh.rotateY(0.02);
+  mars.Mesh.rotateY(0.018);
+  mercury.Object.rotateY(0.04);
   saturn.Object.rotateY(0.0009);
+  Venus.Object.rotateY(0.002);
+  earth.Object.rotateY(0.01);
+  mars.Object.rotateY(0.008);
+  jupiter.Object.rotateY(0.0009);
+  uranus.Object.rotateY(0.0004);
+  neptune.Object.rotateY(0.0001);
+  pluto.Object.rotateY(0.00007);
   Rendrer.render(scene, camera);
 };
 // Rendrer
