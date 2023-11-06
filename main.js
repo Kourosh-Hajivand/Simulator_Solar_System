@@ -108,10 +108,10 @@ const animation = () => {
   Venus.Object.rotateY(0.002);
   earth.Object.rotateY(0.01);
   mars.Object.rotateY(0.008);
-  jupiter.Object.rotateY(0.0009);
-  uranus.Object.rotateY(0.0004);
-  neptune.Object.rotateY(0.0001);
-  pluto.Object.rotateY(0.00007);
+  jupiter.Object.rotateY(0.001);
+  uranus.Object.rotateY(0.0014);
+  neptune.Object.rotateY(0.001);
+  pluto.Object.rotateY(0.0007);
   Rendrer.render(scene, camera);
 };
 // Rendrer
