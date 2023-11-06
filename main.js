@@ -35,7 +35,7 @@ scene.background = sceneTexture.load([
   Stars,
   Stars,
 ]);
-const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
+const CreatePlanet = (size, position, texture, ring) => {
   const textureLoader = new THREE.TextureLoader();
   const Geometry = new THREE.SphereGeometry(size, 64, 64);
   const Material = new THREE.MeshStandardMaterial({
@@ -45,11 +45,11 @@ const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
   Mesh.position.x = position;
   const Object = new THREE.Object3D();
   scene.add(Object);
-  if (haveRing) {
-    const RingGeo = new THREE.RingGeometry(12, 20, 32);
+  if (ring) {
+    const RingGeo = new THREE.RingGeometry(ring.inderRing, ring.outerRing, 32);
     const RingMat = new THREE.MeshBasicMaterial({
       side: THREE.DoubleSide,
-      map: textureLoader.load(RingTexture),
+      map: textureLoader.load(ring.RingTexture),
     });
     const RingMesh = new THREE.Mesh(RingGeo, RingMat);
     RingMesh.position.x = position;
@@ -61,19 +61,27 @@ const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
 };
 const SunPlanet = CreatePlanet(16, 0, sunTexture);
 const mercury = CreatePlanet(6, 28, MercuryTexture);
-const Venus = CreatePlanet(5.8, 44, venusTexture, false, saturnRingTexture);
-const earth = CreatePlanet(6, 62, earthTexture, false, saturnRingTexture);
-const mars = CreatePlanet(4, 78, marsTexture, false, saturnRingTexture);
-const jupiter = CreatePlanet(12, 100, jupiterTexture, false, saturnRingTexture);
-const saturn = CreatePlanet(10, 138, saturnTexture, false, saturnRingTexture);
-const uranus = CreatePlanet(7, 176, uranusTexture, true, uranusRingTexture);
-const neptune = CreatePlanet(7, 200, neptuneTexture, false, saturnRingTexture);
-const pluto = CreatePlanet(2.8, 216, plutoTexture, false, saturnRingTexture);
+const Venus = CreatePlanet(5.8, 44, venusTexture);
+const earth = CreatePlanet(6, 62, earthTexture);
+const mars = CreatePlanet(4, 78, marsTexture);
+const jupiter = CreatePlanet(12, 100, jupiterTexture);
+const saturn = CreatePlanet(10, 138, saturnTexture, {
+  outerRing: 20,
+  inderRing: 10,
+  RingTexture: saturnRingTexture,
+});
+const uranus = CreatePlanet(7, 176, uranusTexture, {
+  outerRing: 12,
+  inderRing: 7,
+  RingTexture: uranusRingTexture,
+});
+const neptune = CreatePlanet(7, 200, neptuneTexture);
+const pluto = CreatePlanet(2.8, 216, plutoTexture);
 // light
 const AmbitionLight = new THREE.AmbientLight(0xffffff);
 scene.add(AmbitionLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 10199, 1000);
+const pointLight = new THREE.PointLight(0xffffff, 10199, 10000);
 pointLight.castShadow = true;
 scene.add(pointLight);
 
@@ -89,7 +97,6 @@ const animation = () => {
   uranus.Mesh.rotateY(0.03);
   neptune.Mesh.rotateY(0.032);
   pluto.Mesh.rotateY(0.008);
-
   mercury.Object.rotateY(0.04);
   saturn.Object.rotateY(0.0009);
   Venus.Object.rotateY(0.002);
