@@ -35,8 +35,8 @@ scene.background = sceneTexture.load([
   Stars,
   Stars,
 ]);
+const textureLoader = new THREE.TextureLoader();
 const CreatePlanet = (size, position, texture, ring) => {
-  const textureLoader = new THREE.TextureLoader();
   const Geometry = new THREE.SphereGeometry(size, 64, 64);
   const Material = new THREE.MeshStandardMaterial({
     map: textureLoader.load(texture),
@@ -59,7 +59,13 @@ const CreatePlanet = (size, position, texture, ring) => {
   Object.add(Mesh);
   return { Mesh, Object };
 };
-const SunPlanet = CreatePlanet(16, 0, sunTexture);
+const Geometry = new THREE.SphereGeometry(16, 64, 64);
+const Material = new THREE.MeshBasicMaterial({
+  map: textureLoader.load(sunTexture),
+});
+const Mesh = new THREE.Mesh(Geometry, Material);
+scene.add(Mesh);
+// const SunPlanet = CreatePlanet(16, 0, sunTexture);
 const mercury = CreatePlanet(6, 28, MercuryTexture);
 const Venus = CreatePlanet(5.8, 44, venusTexture);
 const earth = CreatePlanet(6, 62, earthTexture);
@@ -87,7 +93,7 @@ scene.add(pointLight);
 
 // animation
 const animation = () => {
-  SunPlanet.Mesh.rotateY(0.004);
+  Mesh.rotateY(0.004);
   mercury.Mesh.rotateY(0.004);
   Venus.Mesh.rotateY(0.002);
   earth.Mesh.rotateY(0.02);
