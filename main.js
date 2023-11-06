@@ -84,6 +84,12 @@ const animation = () => {
   Venus.Mesh.rotateY(0.002);
   earth.Mesh.rotateY(0.02);
   mars.Mesh.rotateY(0.018);
+  jupiter.Mesh.rotateY(0.04);
+  saturn.Mesh.rotateY(0.038);
+  uranus.Mesh.rotateY(0.03);
+  neptune.Mesh.rotateY(0.032);
+  pluto.Mesh.rotateY(0.008);
+
   mercury.Object.rotateY(0.04);
   saturn.Object.rotateY(0.0009);
   Venus.Object.rotateY(0.002);
