@@ -17,9 +17,9 @@ import plutoTexture from "/img/pluto.jpg";
 const scene = new THREE.Scene();
 // Camera
 const camera = new THREE.PerspectiveCamera(
-  45,
+  40,
   window.innerWidth / window.innerHeight,
-  0.1,
+  1,
   1000
 );
 
@@ -87,7 +87,7 @@ const pluto = CreatePlanet(2.8, 216, plutoTexture);
 const AmbitionLight = new THREE.AmbientLight(0xffffff);
 scene.add(AmbitionLight);
 
-const pointLight = new THREE.PointLight(0xffffff, 10199, 10000);
+const pointLight = new THREE.PointLight(0xffffff, 10499, 100000);
 pointLight.castShadow = true;
 scene.add(pointLight);
 
