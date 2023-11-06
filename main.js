@@ -27,68 +27,47 @@ scene.background = sceneTexture.load([
   Stars,
   Stars,
 ]);
-const CreatePlanet = (size, position, haveRing, RingTexture) => {
-  const MercuryGeo = new THREE.SphereGeometry(3.2, 64, 64);
-  const MercuryMat = new THREE.MeshStandardMaterial({
-    map: textureLoader.load(MercuryTexture),
+const CreatePlanet = (size, position, texture, haveRing, RingTexture) => {
+  const textureLoader = new THREE.TextureLoader();
+  const Geometry = new THREE.SphereGeometry(size, 64, 64);
+  const Material = new THREE.MeshStandardMaterial({
+    map: textureLoader.load(texture),
   });
-  const MercuryMesh = new THREE.Mesh(MercuryGeo, MercuryMat);
-  MercuryMesh.position.x = 28;
-  const MercuryObj = new THREE.Object3D();
-  scene.add(MercuryObj);
-  MercuryObj.add(MercuryMesh);
+  const Mesh = new THREE.Mesh(Geometry, Material);
+  Mesh.position.x = position;
+  const Object = new THREE.Object3D();
+  scene.add(Object);
+  if (haveRing) {
+    const RingGeo = new THREE.RingGeometry(12, 20, 32);
+    const RingMat = new THREE.MeshBasicMaterial({
+      side: THREE.DoubleSide,
+      map: textureLoader.load(RingTexture),
+    });
+    const RingMesh = new THREE.Mesh(RingGeo, RingMat);
+    RingMesh.position.x = 70;
+    RingMesh.rotation.x = -0.5 * Math.PI;
+    Object.add(RingMesh);
+  }
+  Object.add(Mesh);
+  return { Mesh, Object };
 };
-// sunGeo
-const textureLoader = new THREE.TextureLoader();
-const SunGeo = new THREE.SphereGeometry(16, 64, 64);
-const SunMat = new THREE.MeshBasicMaterial({
-  map: textureLoader.load(sunTexture),
-});
-const SunMesh = new THREE.Mesh(SunGeo, SunMat);
-scene.add(SunMesh);
-// mercury
-const MercuryGeo = new THREE.SphereGeometry(3.2, 64, 64);
-const MercuryMat = new THREE.MeshStandardMaterial({
-  map: textureLoader.load(MercuryTexture),
-});
-const MercuryMesh = new THREE.Mesh(MercuryGeo, MercuryMat);
-MercuryMesh.position.x = 28;
-const MercuryObj = new THREE.Object3D();
-scene.add(MercuryObj);
-MercuryObj.add(MercuryMesh);
-// saturn
-const SaturnGeo = new THREE.SphereGeometry(10, 64, 64);
-const SaturnMat = new THREE.MeshStandardMaterial({
-  map: textureLoader.load(saturnTexture),
-});
-const SaturnMesh = new THREE.Mesh(SaturnGeo, SaturnMat);
-SaturnMesh.position.x = 70;
-const SaturnObj = new THREE.Object3D();
-scene.add(SaturnObj);
-SaturnObj.add(SaturnMesh);
-
-const SaturnRingGeo = new THREE.RingGeometry(12, 20, 32);
-const SaturnRingMat = new THREE.MeshBasicMaterial({
-  side: THREE.DoubleSide,
-  map: textureLoader.load(saturnRingTexture),
-});
-const SaturnRingMesh = new THREE.Mesh(SaturnRingGeo, SaturnRingMat);
-SaturnRingMesh.position.x = 70;
-SaturnRingMesh.rotation.x = -0.5 * Math.PI;
-SaturnObj.add(SaturnRingMesh);
+const SunPlanet = CreatePlanet(16, 0, sunTexture);
+const mercury = CreatePlanet(6, 40, MercuryTexture);
+const saturn = CreatePlanet(10, 70, saturnTexture, true, saturnRingTexture);
 // light
-const AmbitionLight = new THREE.AmbientLight(0x404040);
+const AmbitionLight = new THREE.AmbientLight(0xffffff);
 scene.add(AmbitionLight);
-const pointLight = new THREE.PointLight(0xffffff, 1000, 1000, 1.8);
+
+const pointLight = new THREE.PointLight(0xffffff, 10199, 1000);
+pointLight.castShadow = true;
 scene.add(pointLight);
-// const pointLightHelper = new THREE.PointLightHelper(pointLight, 100);
-// scene.add(pointLightHelper);
+
 // animation
 const animation = () => {
-  SunMesh.rotateY(0.004);
-  MercuryMesh.rotateY(0.004);
-  MercuryObj.rotateY(0.014);
-  SaturnObj.rotateY(0.0009);
+  SunPlanet.Mesh.rotateY(0.004);
+  mercury.Mesh.rotateY(0.0104);
+  mercury.Object.rotateY(0.009);
+  saturn.Object.rotateY(0.0009);
   Rendrer.render(scene, camera);
 };
 // Rendrer
